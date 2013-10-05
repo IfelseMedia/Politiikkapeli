@@ -6,8 +6,8 @@ using System;
 namespace PoliticsGame
 {
 	public class PoliticsGameBehaviour : MonoBehaviour {
-		private Translator _translator;
-		public Translator translator
+		private static Translator _translator;
+		public static Translator translator
 		{
 			get 
 			{
@@ -17,10 +17,11 @@ namespace PoliticsGame
 			}
 		}
 		
-		public GameManager gameManager;
+		[NonSerialized]
+		public static GameManager gameManager;
 		
-		private NetworkManager _network;
-		public NetworkManager network
+		private static NetworkManager _network;
+		public static NetworkManager network
 		{
 			get { return GetManagerComponent<NetworkManager>(_network); }
 		}
@@ -30,11 +31,13 @@ namespace PoliticsGame
 			return translator.Get(text, tokens);
 		}
 		
-		private T GetManagerComponent<T>(T targetVar) where T : MonoBehaviour
+		private static T GetManagerComponent<T>(T targetVar) where T : MonoBehaviour
 		{
 			if (targetVar == null)
 			{
-				targetVar = gameManager.Root.AddComponent<T>();
+				if (gameManager == null) Debug.LogError("Null gameManager"); 
+				else if (gameManager.Root == null) Debug.LogError("GameManager has no root");
+				else targetVar = gameManager.Root.AddComponent<T>();
 			}
 			
 			return targetVar;
