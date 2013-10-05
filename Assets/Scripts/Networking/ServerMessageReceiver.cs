@@ -7,8 +7,7 @@ namespace PoliticsGame
 	{
 		public static string msg = string.Empty;
 		
-		[RPC]
-		void Test01(string message, NetworkMessageInfo messageInfo)
+		public static void AddMessage(string message)
 		{
 			msg = message;
 		}

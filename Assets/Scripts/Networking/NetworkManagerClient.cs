@@ -4,15 +4,21 @@ using System.Collections;
 namespace PoliticsGame
 {
 	public class NetworkManagerClient : NetworkParticipant {
-	
-		// Use this for initialization
-		void Start () {
-		
+		void Start()
+		{
+			Initialize();
 		}
 		
-		// Update is called once per frame
-		void Update () {
+		[RPC]
+		void LogMessage(string message, NetworkMessageInfo messageInfo)
+		{
+			ServerMessageReceiver.AddMessage(message);
+		}
 		
+		void OnConnectedToServer()
+		{
+			Debug.Log("Connected to server.");
+			networkView.RPC("OnClientConnected", RPCMode.Server, network.localId);
 		}
 	}
 	

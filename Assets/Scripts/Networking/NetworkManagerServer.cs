@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace PoliticsGame
 {
 	public class NetworkManagerServer : NetworkParticipant {
-		NetworkView netview;
 		
-		// Use this for initialization
 		void Start () {
-			netview = networkView;
+			Initialize();
 			
 			StartCoroutine(TestRPC());
 		}
@@ -28,12 +27,14 @@ namespace PoliticsGame
 		void TestRPC(string msg)
 		{
 			Debug.Log("Sent message " + msg);
-			netview.RPC("Test01", RPCMode.All, msg);
+			netview.RPC("LogMessage", RPCMode.AllBuffered, msg);
 		}
 		
 		void OnServerInitialized()
 		{
 		    Debug.Log("Server Initializied");
 		}
+		
+		
 	}
 }

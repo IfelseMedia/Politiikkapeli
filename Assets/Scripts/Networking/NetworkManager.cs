@@ -10,7 +10,9 @@ namespace PoliticsGame
 		
 		[System.NonSerialized]
 		public NetworkManagerServer server;
-	 
+		
+		public string localId = "timo8";
+		
 		public void StartServer()
 		{
 		    NetworkConnectionError error = Network.InitializeServer(100, 25000, !Network.HavePublicAddress());
@@ -21,16 +23,17 @@ namespace PoliticsGame
 				return;
 			}
 			
+			if (server) Destroy(server);
+			
 			server = gameManager.Root.AddComponent<NetworkManagerServer>();
+			
+			if (client) Destroy(client);
 			
 			client = gameManager.Root.AddComponent<NetworkManagerClient>();
 		}
 		
 		public void ConnectToServer(string ip, int port, string id)
 		{
-			HostData host = new HostData();
-			host.ip = new string[]{ip};
-			host.guid = id;
 			NetworkConnectionError error = Network.Connect(ip, port);
 			
 			if (error != NetworkConnectionError.NoError) 
@@ -38,6 +41,10 @@ namespace PoliticsGame
 				Debug.LogError(error);
 				return;
 			}
+			
+			this.localId = id;
+			
+			if (client) Destroy(client);
 			
 			client = gameManager.Root.AddComponent<NetworkManagerClient>();
 		}
