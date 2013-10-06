@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace PoliticsGame
@@ -11,7 +11,7 @@ namespace PoliticsGame
 		[System.NonSerialized]
 		public NetworkManagerServer server;
 		
-		public string localId = "timo8";
+		public string myViewCode = "timo8";
 		
 		public void StartServer()
 		{
@@ -42,7 +42,7 @@ namespace PoliticsGame
 				return;
 			}
 			
-			this.localId = id;
+			this.myViewCode = id;
 			
 			if (client) Destroy(client);
 			

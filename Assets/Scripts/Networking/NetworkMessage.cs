@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MiniJSON;
 
 public abstract class NetworkMessage
 {
@@ -23,17 +24,27 @@ public abstract class NetworkMessage
 	    System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
 	    return new string(chars);
 	}
-	
+		
 	public byte[] ToBytes()
 	{
-		return Zip.Compress(GetBytes(ToJson()));
+		//return Zip.Compress(GetBytes(ToJson()));
+		return GetBytes(ToJson());
 	}
 	
 	public void FromBytes(byte[] bytes)
 	{
-		FromJson(GetString(Zip.Decompress(bytes)));
+		//FromJson(GetString(Zip.Decompress(bytes)));
+		FromJson(GetString(bytes));
 	}
 	
+	public static int GetInt(object rawData)
+	{
+		System.Int64 int64 = (System.Int64)rawData;
+		return (int)int64;
+	}
+	
+	public abstract NetworkMessage GetNewInstance();
+	public abstract string ToComparisonString();
 	public abstract string ToJson();
 	public abstract void FromJson(string json);
 }

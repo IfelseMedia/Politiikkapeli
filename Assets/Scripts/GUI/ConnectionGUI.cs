@@ -9,7 +9,12 @@ namespace PoliticsGame
 		
 		string ip = "127.0.0.1";
 		string port = "25000";
-		string id = "timo8";
+		string id = "";
+		
+		void Start()
+		{
+			 id = Text ("syötä puoluekoodi");
+		}
 		
 		void OnGUI()
 		{
@@ -19,8 +24,9 @@ namespace PoliticsGame
 				{
 					network.StartServer();
 				}
-				ip = GUI.TextField(new Rect(220, 50, 200, 20), ip);
-				port = GUI.TextField(new Rect(430, 50, 200, 20), port);
+				ip = GUI.TextField(new Rect(220, 50, 120, 20), ip);
+				port = GUI.TextField(new Rect(350, 50, 100, 20), port);
+				id = GUI.TextField(new Rect(460, 50, 100, 20), id);
 				if (GUI.Button(new Rect(10, 50, 200, 30), "Join"))
 				{
 					int portNum = 25000;

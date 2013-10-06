@@ -23,7 +23,12 @@ namespace PoliticsGame
 		private static NetworkManager _network;
 		public static NetworkManager network
 		{
-			get { return GetManagerComponent<NetworkManager>(_network); }
+			get 
+			{
+				if (_network == null) _network = gameManager.Root.AddComponent<NetworkManager>();
+				
+				return _network;
+			}
 		}
 		
 		public string Text(string text, params string[] tokens) 
@@ -31,7 +36,7 @@ namespace PoliticsGame
 			return translator.Get(text, tokens);
 		}
 		
-		private static T GetManagerComponent<T>(T targetVar) where T : MonoBehaviour
+		private static T GetManagerComponent<T>(ref T targetVar) where T : MonoBehaviour
 		{
 			if (targetVar == null)
 			{
